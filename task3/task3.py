@@ -10,48 +10,46 @@ length = len(lines[0])
 lsrn = [int(x, 2) for x in lines]
 csrn = lsrn.copy()
 
-for i in reversed(range(length)):
-    if len(lsrn) == 1:
-        break
+def filter(x, f):
+    for i in reversed(range(length)):
+        if len(x) == 1:
+            break
 
-    ones = 0
-    zeros = 0
-    mask = 1 << i
+        ones = 0
+        zeros = 0
+        mask = 1 << i
 
-    for number in lsrn:
-        if number & mask > 0:
-            ones += 1
-        else:
-            zeros += 1
+        for number in x:
+            if number & mask > 0:
+                ones += 1
+            else:
+                zeros += 1
 
+        x = f(ones, zeros, mask, x)
+        
+    return x
+
+def flsrn(ones, zeros, mask, list):
     if ones >= zeros:
         # Keep numbers with one bit
-        lsrn = [x for x in lsrn if (x & mask) > 0]
+        return [x for x in list if (x & mask) > 0]
     else:
         # Keep numbers with zero bit
-        lsrn = [x for x in lsrn if (x & mask) == 0]
+        return [x for x in list if (x & mask) == 0]
 
-for i in reversed(range(length)):
-    if len(csrn) == 1:
-        break
-
-    ones = 0
-    zeros = 0
-    mask = 1 << i
-
-    for number in csrn:
-        if number & mask > 0:
-            ones += 1
-        else:
-            zeros += 1
-
+def fcsrn(ones, zeros, mask, list):
     if zeros > ones:
         # Keep numbers with one bit
-        csrn = [x for x in csrn if (x & mask) > 0]
+        return [x for x in list if (x & mask) > 0]
     else:
         # Keep numbers with zero bit
-        csrn = [x for x in csrn if (x & mask) == 0]
+        return [x for x in list if (x & mask) == 0]
 
+
+lsrn = filter(lsrn, flsrn)
+csrn = filter(csrn, fcsrn)
+
+# 6775520
 print(f"R: {lsrn[0] * csrn[0]}")
     
 
