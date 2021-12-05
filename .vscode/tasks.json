@@ -4,12 +4,10 @@
 		{
 			"type": "shell",
 			"label": "C/C++: clang build active file",
-			"command": "make -C task4 all",
+			"command": "cargo build --manifest-path=task5/Cargo.toml",
 			"args": [],
 			"options": {},
-			"problemMatcher": [
-				"$gcc"
-			],
+			"problemMatcher": [],
 			"group": {
 				"kind": "build",
 				"isDefault": true
